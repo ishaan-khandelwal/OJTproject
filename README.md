@@ -17,9 +17,11 @@ pip install -r requirements.txt
 ```
 
 ## Running the App
-Run the server with:
+1. Run the server in your terminal:
 ```bash
 python -m uvicorn main:app --reload
 ```
 
-Open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
+2. **Once the server is running**, open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
+
+> **Note:** This link will **only** work if the server is running on your local machine. It will not work directly from GitHub.
