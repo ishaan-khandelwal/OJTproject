@@ -1,0 +1,144 @@
+:root {
+    --primary: #667eea;
+    --secondary: #764ba2;
+    --success: #51cf66;
+    --warning: #ffd43b;
+    --danger: #ff6b6b;
+    --dark: #2d3436;
+    --light: #f8f9fa;
+}
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f0f2f5;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 20px;
+}
+.sidebar {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    height: fit-content;
+}
+.main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+h1, h2, h3 { margin-top: 0; color: var(--dark); }
+
+/* Controls */
+.control-group { margin-bottom: 15px; }
+label { display: block; margin-bottom: 5px; font-weight: 600; }
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: opacity 0.2s;
+    margin-bottom: 10px;
+}
+.btn-primary { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; }
+.btn-danger { background: var(--danger); color: white; }
+.btn-secondary { background: var(--light); color: var(--dark); border: 1px solid #ddd; }
+button:hover { opacity: 0.9; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Presets */
+.url-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+.url-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: var(--light);
+    border-radius: 6px;
+    font-size: 0.9em;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+.stat-card {
+    background: var(--light);
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+.stat-value { font-size: 1.5em; font-weight: bold; color: var(--primary); }
+.stat-label { font-size: 0.85em; color: #666; }
+
+/* Tabs */
+.tabs { display: flex; gap: 10px; margin-bottom: 15px; }
+.tab-btn {
+    padding: 8px 16px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+}
+.tab-btn.active { border-bottom-color: var(--primary); color: var(--primary); }
+.tab-content { display: none; height: 300px; }
+.tab-content.active { display: block; }
+
+/* Table */
+.table-container { max-height: 400px; overflow-y: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.9em; }
+th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+th { background: #f8f9fa; position: sticky; top: 0; }
+.status { display: inline-flex; align-items: center; gap: 5px; font-weight: 600; font-size: 0.85em; }
+.status.success { color: var(--success); }
+.status.error { color: var(--danger); }
+.latency-indicator { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+.latency-indicator.good { background-color: var(--success); }
+.latency-indicator.fair { background-color: var(--warning); }
+.latency-indicator.poor { background-color: var(--danger); }
+
+/* Messages */
+#messageContainer { position: fixed; top: 20px; right: 20px; z-index: 1000; }
+.message {
+    padding: 12px 20px;
+    border-radius: 6px;
+    color: white;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    animation: slideIn 0.3s ease;
+}
+.message.success { background-color: var(--success); }
+.message.error { background-color: var(--danger); }
+.message.info { background-color: var(--primary); }
+@keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }

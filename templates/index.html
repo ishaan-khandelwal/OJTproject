@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Network Latency Visualizer</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div id="messageContainer"></div>
+
+    <div class="container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <h2>Configuration</h2>
+
+            <div class="control-group">
+                <label>Target URL</label>
+                <input type="text" id="urlInput" placeholder="https://example.com" value="https://www.google.com">
+            </div>
+
+            <div class="control-group">
+                <label>Interval (ms)</label>
+                <select id="interval">
+                    <option value="500">Fast (500ms)</option>
+                    <option value="1000" selected>Normal (1s)</option>
+                    <option value="2000">Slow (2s)</option>
+                    <option value="5000">Very Slow (5s)</option>
+                </select>
+            </div>
+
+            <button class="btn-primary" onclick="startLatencyTest()">Start Test</button>
+            <button class="btn-danger" onclick="stopLatencyTest()">Stop Test</button>
+            <button class="btn-secondary" onclick="addToPresets()">Add to Presets</button>
+            <button class="btn-secondary" onclick="exportData()">Export CSV</button>
+            <button class="btn-secondary" onclick="clearHistory()">Clear History</button>
+
+            <h3>Presets</h3>
+            <div id="urlList" class="url-list">
+                <!-- Presets injected here -->
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+
+            <!-- Statistics -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Min Latency</div>
+                    <div class="stat-value" id="minLatency">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Max Latency</div>
+                    <div class="stat-value" id="maxLatency">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Avg Latency</div>
+                    <div class="stat-value" id="avgLatency">—</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Success Rate</div>
+                    <div class="stat-value"><span id="successRate">—</span>%</div>
+                </div>
+            </div>
+
+            <!-- Charts -->
+            <div class="card">
+                <div class="tabs">
+                    <button class="tab-btn active" onclick="switchChart('latencyChartContainer', this)">Latency
+                        Trend</button>
+                    <button class="tab-btn"
+                        onclick="switchChart('distributionChartContainer', this)">Distribution</button>
+                    <button class="tab-btn" onclick="switchChart('statusChartContainer', this)">Status</button>
+                </div>
+
+                <div id="latencyChartContainer" class="tab-content active">
+                    <canvas id="latencyChart"></canvas>
+                </div>
+                <div id="distributionChartContainer" class="tab-content">
+                    <canvas id="distributionChart"></canvas>
+                </div>
+                <div id="statusChartContainer" class="tab-content">
+                    <canvas id="statusChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Performance Summary -->
+            <div class="card">
+                <h3>Performance Summary</h3>
+                <div id="performanceSummary" style="color: #666;">
+                    No data available. Start a test to see results.
+                </div>
+            </div>
+
+            <!-- History Table -->
+            <div class="card">
+                <h3>Request History</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Time</th>
+                                <th>URL</th>
+                                <th>Latency</th>
+                                <th>Status Code</th>
+                                <th>Status</th>
+                                <th>Response</th>
+                            </tr>
+                        </thead>
+                        <tbody id="historyBody">
+                            <tr>
+                                <td colspan="6" style="text-align: center; color: #999;">No test data yet</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+</body>
+
+</html>
