@@ -9,7 +9,7 @@ let charts = {
     status: null,
 };
 
-// Preset URLs
+// Presents URLs
 const presetUrls = [
     { name: "Google", url: "https://www.google.com" },
     { name: "Cloudflare", url: "https://www.cloudflare.com" },
@@ -23,7 +23,29 @@ document.addEventListener("DOMContentLoaded", function () {
     renderPresetUrls();
     initCharts();
     setupChart();
+    
+    // Initialize theme
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+        document.getElementById("themeToggle").textContent = "☀️";
+    }
 });
+
+// Toggle Theme
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const newTheme = currentTheme === "dark" ? "light" : "dark";
+    
+    document.documentElement.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    
+    const btn = document.getElementById("themeToggle");
+    btn.textContent = newTheme === "dark" ? "☀️" : "🌙";
+    
+    // Update charts to match theme (optional, but good for visibility)
+    updateCharts();
+}
 
 // Render preset URLs
 function renderPresetUrls() {
@@ -76,7 +98,30 @@ function showMessage(text, type) {
     msg.textContent = text;
     container.innerHTML = "";
     container.appendChild(msg);
+    
+    // Play notification sound
+    playNotificationSound();
+    
     setTimeout(() => msg.remove(), 5000);
+}
+
+// Play notification sound
+function playNotificationSound() {
+    // Simple beep sound (base64 encoded wav)
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = audioContext.createOscillator();
+    const gainNode = audioContext.createGain();
+
+    oscillator.connect(gainNode);
+    gainNode.connect(audioContext.destination);
+
+    oscillator.type = "sine";
+    oscillator.frequency.setValueAtTime(880, audioContext.currentTime); // A5
+    gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+    
+    oscillator.start();
+    gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 0.5);
+    oscillator.stop(audioContext.currentTime + 0.5);
 }
 
 // Start latency test
@@ -85,7 +130,7 @@ async function startLatencyTest() {
     if (!url) {
         alert("Enter a valid URL");
         return;
-    }
+}
 
     if (testRunning) return; // Prevent multiple intervals
     
@@ -136,7 +181,7 @@ function recordLatency(url, latency, statusCode, status) {
 // Update history table
 function updateHistoryTable(entry) {
     const tbody = document.getElementById("historyBody");
-    // Remove "No test data" row if it exists
+    // Remove (No test data) row if it exists
     if (tbody.rows.length === 1 && tbody.rows[0].cells.length === 1) {
         tbody.innerHTML = "";
     }
@@ -267,7 +312,7 @@ function exportData() {
         },"${entry.status}","${
         entry.latency ? entry.latency.toFixed(2) + " ms" : "Timeout"
         }"\n`;
-    });
+    }); 
 
     const blob = new Blob([csv], { type: "text/csv" });
     const link = document.createElement("a");

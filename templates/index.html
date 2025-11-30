@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Advanced Network Latency Visualizer</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="/static/style.css?v=2">
 </head>
 
 <body>
@@ -15,7 +15,13 @@
     <div class="container">
         <!-- Sidebar -->
         <div class="sidebar">
-            <h2>Configuration</h2>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2>Configuration</h2>
+                <button id="themeToggle" class="btn-secondary" onclick="toggleTheme()"
+                    style="width: auto; padding: 5px 10px; margin: 0;">
+                    🌙
+                </button>
+            </div>
 
             <div class="control-group">
                 <label>Target URL</label>
@@ -46,7 +52,6 @@
 
         <!-- Main Content -->
         <div class="main-content">
-
             <!-- Statistics -->
             <div class="stats-grid">
                 <div class="stat-card">
