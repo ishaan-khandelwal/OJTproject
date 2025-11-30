@@ -19,4 +19,4 @@ async def measure_latency(host: str) -> float:
         return round(latency_sec * 1000, 2)
     except Exception as e:
         print(f"Error pinging {host}: {e}")
-        return None
+        return None 
