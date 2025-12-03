@@ -2,4 +2,3 @@ fastapi
 uvicorn
 jinja2
 ping3
-S
