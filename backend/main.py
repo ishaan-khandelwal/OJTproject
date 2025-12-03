@@ -4,30 +4,40 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.responses import HTMLResponse
 import asyncio
 import json
-from latency import measure_latency
+from pathlib import Path
+
+from .latency import measure_latency
+
+# Compute project root directory (one level above this file)
+BASE_DIR = Path(__file__).resolve().parent.parent
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="static"), name="static")
+# Mount static files using absolute path so it works regardless of cwd
+app.mount("/static", StaticFiles(directory=str(BASE_DIR / "static")), name="static")
 
-templates = Jinja2Templates(directory="templates")
+templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
+# List of targets to monitor
 TARGETS = [
     {"name": "Google DNS", "host": "8.8.8.8"},
     {"name": "Cloudflare DNS", "host": "1.1.1.1"},
     {"name": "Localhost", "host": "127.0.0.1"}
 ]
 
+
 @app.get("/", response_class=HTMLResponse)
 async def read_root(request: Request):
     return templates.TemplateResponse("index.html", {"request": request, "targets": TARGETS})
 
+
 @app.websocket("/ws/latency")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
-    
+
+    # Each connection has its own list of targets
     connection_targets = list(TARGETS)
-    
+
     async def sender():
         try:
             while True:
@@ -59,23 +69,26 @@ async def websocket_endpoint(websocket: WebSocket):
         except Exception as e:
             print(f"Receiver error: {e}")
 
+    # Run both tasks concurrently
     sender_task = asyncio.create_task(sender())
     receiver_task = asyncio.create_task(receiver())
-    
+
     done, pending = await asyncio.wait(
         [sender_task, receiver_task],
         return_when=asyncio.FIRST_COMPLETED,
     )
-    
+
     for task in pending:
         task.cancel()
 
+
 @app.get("/latency")
 async def check_latency(url: str):
+    # Clean URL to get hostname
     host = url.replace("https://", "").replace("http://", "").split("/")[0]
     latency = await measure_latency(host)
-    
+
     if latency is not None:
         return {"latency": latency, "status": "success"}
     else:
-        return {"latency": None, "status": "error"} 
+        return {"latency": None, "status": "error"}

@@ -19,7 +19,8 @@ pip install -r requirements.txt
 ## Running the App
 1. Run the server in your terminal:
 ```bash
-python -m uvicorn main:app --reload
+# Run the backend package directly
+python -m uvicorn backend.main:app --reload
 ```
 
 2. **Once the server is running**, open [http://127.0.0.1:8000](http://127.0.0.1:8000) in your browser.
