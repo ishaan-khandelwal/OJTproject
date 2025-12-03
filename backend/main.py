@@ -20,9 +20,9 @@ templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 # List of targets to monitor
 TARGETS = [
-    {"name": "Google DNS", "host": "8.8.8.8"},
-    {"name": "Cloudflare DNS", "host": "1.1.1.1"},
-    {"name": "Localhost", "host": "127.0.0.1"}
+    {"name": "Google", "host": "www.google.com"},
+    {"name": "Cloudflare", "host": "www.cloudflare.com"},
+    {"name": "Localhost", "host": "127.0.0.1:8000"}
 ]
 
 
