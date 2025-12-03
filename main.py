@@ -78,4 +78,4 @@ async def check_latency(url: str):
     if latency is not None:
         return {"latency": latency, "status": "success"}
     else:
-        return {"latency": None, "status": "error"}
+        return {"latency": None, "status": "error"} 
